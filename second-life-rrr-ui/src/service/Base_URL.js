@@ -1,6 +1,7 @@
 const BASE_URL = {
   userLogin: "http://localhost:8080/auth/login",
   addUser: "http://localhost:8080/auth/add-user",
+  logoutUser: "http://localhost:8080/logout",
   getProducts: "http://localhost:8080/auth/user/get-products",
   getAllProducts: "http://localhost:8080/auth/get-all-products",
   getUserDitails: "http://localhost:8080/auth/user/user-ditails",

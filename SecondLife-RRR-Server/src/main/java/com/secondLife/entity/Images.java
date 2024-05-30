@@ -25,6 +25,17 @@ public class Images {
 		return id;
 	}
 
+	public Images() {
+		super();
+	}
+
+	public Images(Long id, String imageUrl, ScrapProduct scrapProduct) {
+		super();
+		this.id = id;
+		this.imageUrl = imageUrl;
+		this.scrapProduct = scrapProduct;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}

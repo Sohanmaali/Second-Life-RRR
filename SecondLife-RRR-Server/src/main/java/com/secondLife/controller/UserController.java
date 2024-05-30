@@ -21,8 +21,8 @@ import com.secondLife.service.UserService;
 @RestController
 @RequestMapping("/auth")
 
-//@CrossOrigin(origins = "*")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
 	@Autowired
@@ -66,12 +66,18 @@ public class UserController {
 	@PostMapping("/user/user-ditails")
 	public ResponseEntity<?> userDitails(@RequestBody AuthRequest authRequest) {
 		System.out.println("user-ditails" + authRequest);
-		
+
 		User user = this.userService.getUserDitails(authRequest);
 		System.out.println(user);
 		if (user == null)
 			ResponseEntity.badRequest();
 		return ResponseEntity.ok().body(user);
+	}
+
+	@GetMapping("/logout")
+	public void logout() {
+		System.out.println("user logout");
+
 	}
 
 }

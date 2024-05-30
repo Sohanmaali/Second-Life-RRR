@@ -123,10 +123,10 @@ public class User {
 //		this.scrapProducts = scrapProducts;
 //	}
 
-//	@Override
-//	public String toString() {
-//		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", isActive="
-//				+ isActive + ", roles=" + roles + ", products=" + products + "]";
-//	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", isActive="
+				+ isActive + ", roles=" + roles + ",]";
+	}
 
 }

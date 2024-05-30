@@ -15,7 +15,7 @@ export default function Sigup() {
   const SigupDataHendlor = (e) => {
     e.preventDefault();
     e.preventDefault(); // Prevents the default form submission behavior
-    console.log(emailElement.current.value);
+    // console.log(emailElement.current.value);
     const mydata = {
       name: nameElement.current.value,
       email: emailElement.current.value,

@@ -168,4 +168,12 @@ public class ScrapProduct {
 		this.address = address;
 	}
 
+	@Override
+	public String toString() {
+		return "ScrapProduct [id=" + id + ", productName=" + productName + ", description=" + description
+				+ ", scrapCondition=" + scrapCondition + ", status=" + status + ", price=" + price + ", thumbnail="
+				+ thumbnail + ", date=" + date + ", category=" + category + ", shippingCost=" + shippingCost
+				+ ", images=" + images + ", address=" + address + ", user=" + user + "]";
+	}
+
 }

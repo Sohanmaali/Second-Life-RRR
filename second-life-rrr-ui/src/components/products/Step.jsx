@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ComponentProps } from "react";
 
-function Step({ step, currentStep }: { step: number, currentStep: number }) {
+function Step({ step, currentStep }) {
   let status =
     currentStep === step
       ? "active"

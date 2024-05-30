@@ -18,10 +18,8 @@ const Header = () => {
   const userDetails = useSelector(selectUserDetails);
 
   const handleLogin = () => {
-    console.log("login call");
     navigate("/login");
   };
-  console.log(userDetails);
   const handleLogout = () => {
     console.log(`logout call`);
     dispatch(logoutUser());
@@ -150,7 +148,7 @@ const Header = () => {
             >
               {userDetails.name}
             </button>
-          ) : ( 
+          ) : (
             <button
               onClick={handleLogin}
               className="px-6 py-2 font-semibold rounded bg-[#22631B] text-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-[green] whitespace-nowrap"
