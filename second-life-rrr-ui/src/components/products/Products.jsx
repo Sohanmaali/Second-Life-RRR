@@ -9,18 +9,18 @@ import Loader from "../Loader";
 
 export default function Products() {
   const navigator = useNavigate();
-  const [productData, setProductData] = useState([]);
+  const [productData, setProductData] = useState([{}]);
   const [loading, setLoading] = useState(true);
 
+  // setLoading(true);
   useEffect(() => {
-    // console.log(localStorage.getItem("token"));
-    // const token = localStorage.getItem("token");
     setLoading(true);
     axios
-      .get(BASE_URL.getAllProducts)
+      .get(BASE_URL.getScrapProducts)
       .then((response) => {
+        // console.log("response data           ", response);
         setProductData(response.data);
-        console.log(productData);
+        // console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -32,30 +32,6 @@ export default function Products() {
       });
     return;
   }, []);
-
-  // useEffect(() => {
-  //   // console.log(localStorage.getItem("token"));
-  //   const token = localStorage.getItem("token");
-  //   setLoading(true);
-  //   axios
-  //     .get(BASE_URL.getProducts, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setProductData(response.data);
-  //       // console.log(productData);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       // Handle errors here
-  //       console.error("Error fetching data:", error);
-  //       toast.error("Server Error");
-  //       setLoading(false);
-  //       navigator("/");
-  //     });
-  // }, []);
 
   return (
     <>

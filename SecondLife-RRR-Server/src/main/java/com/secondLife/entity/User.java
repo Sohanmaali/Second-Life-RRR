@@ -2,7 +2,6 @@ package com.secondLife.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -11,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
@@ -35,21 +35,31 @@ public class User {
 	@Transient
 	transient private String token;
 
-//	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//	private Address address;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JsonManagedReference
-//	@JsonIgnore
 	private List<ScrapProduct> scrapProducts;
 
-//	@OneToMany(mappedBy = "user")
-//	 @JsonIgnore
-//	private List<ProductRating> ratings;
-//
-//	@OneToMany(mappedBy = "user")
-//	 @JsonIgnore
-//	private List<ProductRating> reviews;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	@JsonManagedReference
+	private Address address;
+
+	public List<ScrapProduct> getScrapProducts() {
+		return scrapProducts;
+	}
+
+	public void setScrapProducts(List<ScrapProduct> scrapProducts) {
+		this.scrapProducts = scrapProducts;
+	}
+
+	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
 	public Long getId() {
 		return id;
@@ -105,28 +115,6 @@ public class User {
 
 	public void setToken(String token) {
 		this.token = token;
-	}
-
-//	public Address getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(Address address) {
-//		this.address = address;
-//	}
-
-//	public List<ScrapProduct> getProducts() {
-//		return scrapProducts;
-//	}
-//
-//	public void setProducts(List<ScrapProduct> scrapProducts) {
-//		this.scrapProducts = scrapProducts;
-//	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", isActive="
-				+ isActive + ", roles=" + roles + ",]";
 	}
 
 }

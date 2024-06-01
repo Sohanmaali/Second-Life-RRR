@@ -16,6 +16,7 @@ public class Images {
 	private Long id;
 
 	private String imageUrl;
+	
 	@ManyToOne
 	@JoinColumn(name = "scrapProduct_id")
 	@JsonBackReference
@@ -29,11 +30,11 @@ public class Images {
 		super();
 	}
 
-	public Images(Long id, String imageUrl, ScrapProduct scrapProduct) {
+	public Images(String imageUrl ) {
 		super();
-		this.id = id;
+		
 		this.imageUrl = imageUrl;
-		this.scrapProduct = scrapProduct;
+	
 	}
 
 	public void setId(Long id) {

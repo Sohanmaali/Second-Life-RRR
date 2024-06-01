@@ -19,6 +19,12 @@
 	</properties>
 	<dependencies>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+
 		<!--For Web-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -92,6 +98,13 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
+		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.36.0</version> <!-- Or the latest version available -->
+		</dependency>
+
 
 	</dependencies>
 

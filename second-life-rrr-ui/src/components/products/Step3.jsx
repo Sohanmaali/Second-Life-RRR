@@ -1,9 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FormContext } from "./FormContext";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Step3 = () => {
+  const addressDetails = [
+    { name: "city", label: "City", type: "text" },
+    { name: "pincode", label: "Pincode", type: "text" },
+    { name: "state", label: "State", type: "text" },
+    { name: "landMark", label: "Landmark", type: "text" },
+    { name: "streetAddress", label: "Street Address", type: "text" },
+  ];
+  const [emptyFields, setEmptyFields] = useState([]);
   const { productData, setProductData, handleNextStep, handlePreviousStep } =
     useContext(FormContext);
 
@@ -15,68 +21,67 @@ const Step3 = () => {
         [e.target.name]: e.target.value,
       },
     });
+    if (emptyFields.includes(e.target.name)) {
+      setEmptyFields(emptyFields.filter((field) => field !== e.target.name));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
       handleNextStep();
-    } else {
-      toast.error("Please fill in all fields", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
     }
   };
 
   const validateForm = () => {
-    for (const field of [
-      "city",
-      "pincode",
-      "state",
-      "landMark",
-      "streetAddress",
-    ]) {
-      if (!productData.address[field]) {
-        return false;
+    const empty = [];
+    for (const field of addressDetails) {
+      if (!productData.address[field.name]) {
+        empty.push(field.name);
       }
     }
-    return true;
+    setEmptyFields(empty);
+    return empty.length === 0;
   };
 
   return (
-    <div className="px-4 mt-6 my-auto">
+    <div className="px-4  my-auto pb-10">
       <h3 className="text-black text-3xl font-bold">Address</h3>
       <form onSubmit={handleSubmit} className="pt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            { name: "city", label: "City", type: "text" },
-            { name: "pincode", label: "Pincode", type: "text" },
-            { name: "state", label: "State", type: "text" },
-            { name: "landMark", label: "Landmark", type: "text" },
-            { name: "streetAddress", label: "Street Address", type: "text" },
-          ].map((field) => (
+          {addressDetails.map((field) => (
             <div className="mb-4" key={field.name}>
-              <label
-                htmlFor={field.name}
-                className="block text-base font-medium leading-6 text-gray-900"
-              >
-                {field.label}
-              </label>
-              <input
-                onChange={handleChange}
-                value={productData.address[field.name]}
-                type={field.type}
-                name={field.name}
-                id={field.name}
-                className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-10"
-                placeholder={`Enter ${field.label.toLowerCase()}`}
-              />
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  onChange={handleChange}
+                  value={productData.address[field.name] || ""}
+                  type={field.type}
+                  name={field.name}
+                  id={field.name}
+                  className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none ${
+                    emptyFields.includes(field.name)
+                      ? "border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  }  dark:focus:border-customYellow focus:outline-none focus:ring-0 text-gray-900  focus:border-blue-600 peer`}
+                  placeholder=""
+                  style={
+                    emptyFields.includes(field.name)
+                      ? { borderColor: "red" }
+                      : {}
+                  }
+                />
+                <label
+                  htmlFor={field.name}
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  {field.label}
+                </label>
+                {emptyFields.includes(field.name) && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {field.label} is required
+                  </p>
+                )}
+              </div>
             </div>
           ))}
         </div>

@@ -20,7 +20,7 @@ public class Address {
 
 	@OneToOne(mappedBy = "address")
 	@JsonBackReference
-	private ScrapProduct scrapProduct;
+	private User user;
 
 	private String city;
 	private String pincode;
@@ -36,12 +36,12 @@ public class Address {
 		this.id = id;
 	}
 
-	public ScrapProduct getScrapProduct() {
-		return scrapProduct;
+	public User getUser() {
+		return user;
 	}
 
-	public void setScrapProduct(ScrapProduct scrapProduct) {
-		this.scrapProduct = scrapProduct;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getCity() {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export default function Product({ product }) {
-  const [discountPrice, setDiscountPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState("0");
   useEffect(() => {
     (() => {
       let discountAmount = (product.price * product.discountPercentage) / 100;
@@ -19,13 +19,14 @@ export default function Product({ product }) {
       >
         <NavLink
           className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl hover:scale-110 duration-700"
-          to="/product-detail"
+          to={`/product-detail/${product.id}`}
         >
           <img
             className="object-cover"
-            src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+            src={product.thumbnail}
             alt="product image"
           />
+
           <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
             {product.discountPercentage}% OFF
           </span>

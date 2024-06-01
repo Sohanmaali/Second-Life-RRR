@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Slidebar from "../Slidebar";
+// import Slidebar from "../Slidebar";
 import CarouselHome from "./CarosuelHome";
 import TypeWriter from "./TypeWriter";
 import HeroFirst from "./HeroFirst";
@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <div>
-        {/* <CarouselHome /> */}
+        <CarouselHome />
         <TypeWriter />
         <HeroFirst />
         <HeroSecond />

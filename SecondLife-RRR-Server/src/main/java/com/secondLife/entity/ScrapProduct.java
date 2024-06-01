@@ -4,6 +4,7 @@ package com.secondLife.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -15,7 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import jakarta.persistence.CascadeType;
 
 @Entity
@@ -43,6 +44,10 @@ public class ScrapProduct {
 	}
 
 	private double price;
+
+	@Transient
+	private Images productThumbnail;
+	
 	private String thumbnail;
 	private Date date;
 	private String category;
@@ -52,24 +57,27 @@ public class ScrapProduct {
 	@JsonManagedReference
 	private List<Images> images;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "id")
-	@JsonManagedReference
+
+	@Transient
 	private Address address;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-//	@JsonBackReference
+	 @JsonBackReference
 	private User user;
 
-	// Getters and Setters
+//	 Getters and Setters
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Images getProductThumbnail() {
+		return productThumbnail;
+	}
+
+	public void setProductThumbnail(Images productThumbnail) {
+		this.productThumbnail = productThumbnail;
 	}
 
 	public String getProductName() {
@@ -144,14 +152,6 @@ public class ScrapProduct {
 		this.shippingCost = shippingCost;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public List<Images> getImages() {
 		return images;
 	}
@@ -168,12 +168,16 @@ public class ScrapProduct {
 		this.address = address;
 	}
 
-	@Override
-	public String toString() {
-		return "ScrapProduct [id=" + id + ", productName=" + productName + ", description=" + description
-				+ ", scrapCondition=" + scrapCondition + ", status=" + status + ", price=" + price + ", thumbnail="
-				+ thumbnail + ", date=" + date + ", category=" + category + ", shippingCost=" + shippingCost
-				+ ", images=" + images + ", address=" + address + ", user=" + user + "]";
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

@@ -22,8 +22,11 @@ public class ProductServiceImp implements ProductService {
 
 		try {
 			if (scrapProduct.getAddress() != null) {
-				scrapProduct.getAddress().setScrapProduct(scrapProduct);
+				scrapProduct.getAddress().setUser(scrapProduct.getUser());
 			}
+//			if (scrapProduct.getAddress() != null) {
+//				scrapProduct.getAddress().setScrapProduct(scrapProduct);
+//			}
 			for (Images image : scrapProduct.getImages()) {
 				image.setScrapProduct(scrapProduct);
 			}

@@ -43,7 +43,8 @@ export const loginUser = (userData) => async (dispatch) => {
     const response = await axios.post(BASE_URL.userLogin, userData);
     const responsedata = response.data; // Assuming the response contains a user object
     if (responsedata) {
-      dispatch(userLoginSuccess(responsedata)); // Dispatch user details with success action
+      dispatch(userLoginSuccess(responsedata));
+      localStorage.setItem("token", responsedata.token); // Dispatch user details with success action
       toast.success("You are logged in now");
     } else {
       toast.error("Token missing in response");
@@ -56,8 +57,8 @@ export const loginUser = (userData) => async (dispatch) => {
 export const registerUser = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(BASE_URL.addUser, userData);
-    const { token } = response.data;
-    if (token) {
+    const { responseData } = response.data;
+    if (responseData) {
       dispatch(registrationSuccess());
       toast.success("Registration Successful! You can login now");
     }
@@ -71,7 +72,7 @@ export const logoutUser = () => (dispatch) => {
 };
 
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-export const selectUserDetails = (state) => state.auth.userDetails; // Selector for user details
+export const selectUserDetails = (state) => state.auth.userDetails;
 export const selectRegistrationSuccess = (state) =>
   state.auth.registrationSuccess;
 
