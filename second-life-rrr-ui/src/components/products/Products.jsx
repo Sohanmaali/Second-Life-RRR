@@ -1,37 +1,32 @@
 import React, { useState } from "react";
 import Product from "./Product";
 import { useEffect } from "react";
-import BASE_URL from "../../service/Base_URL";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchScrapProductData } from "../../features/scrapProductSlice";
 
 export default function Products() {
-  const navigator = useNavigate();
-  const [productData, setProductData] = useState([{}]);
-  const [loading, setLoading] = useState(true);
+  // const navigator = useNavigate();
 
-  // setLoading(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { scrapProductDetails, loading, error } = useSelector(
+    (state) => state.scrapProduct
+  );
+
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(BASE_URL.getScrapProducts)
-      .then((response) => {
-        // console.log("response data           ", response);
-        setProductData(response.data);
-        // console.log(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        // Handle errors here
-        // console.error("Error fetching data:", error);
-        toast.error("Server Error");
-        setLoading(false);
-        navigator("/");
-      });
-    return;
-  }, []);
+    dispatch(fetchScrapProductData());
+    console.log("scrapProductDetails  ", scrapProductDetails);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      navigate("/");
+    }
+  }, [error, navigate]);
 
   return (
     <>
@@ -42,8 +37,8 @@ export default function Products() {
         <div className="flex flex-wrap justify-center">
           {loading ? (
             <Loader />
-          ) : productData && productData.length > 0 ? (
-            productData.map((product, index) => (
+          ) : scrapProductDetails && scrapProductDetails.length > 0 ? (
+            scrapProductDetails.map((product, index) => (
               // Rendering Product component for each item
               <Product key={index} product={product} />
             ))

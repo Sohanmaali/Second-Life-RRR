@@ -32,7 +32,7 @@ export default function Login() {
     <>
       <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center  ">
         <div className="max-w-screen-xl m-0 sm:m-6 bg-white shadow sm:rounded-lg flex justify-center flex-1 ">
-          <div className="flex-1 bg-green-100 text-center hidden lg:flex ">
+          <div className="flex-1 bg-[#fef9c3] text-center hidden lg:flex ">
             <div
               className="m-6 xl:m-16 w-full bg-contain bg-center bg-no-repeat "
               style={{

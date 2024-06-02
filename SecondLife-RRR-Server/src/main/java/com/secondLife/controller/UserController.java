@@ -1,25 +1,15 @@
 package com.secondLife.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import com.secondLife.entity.AuthRequest;
 import com.secondLife.entity.ScrapProduct;
 import com.secondLife.entity.User;
-import com.secondLife.repository.UserRepository;
-import com.secondLife.service.JwtService;
 import com.secondLife.service.ProductService;
 import com.secondLife.service.UserService;
 

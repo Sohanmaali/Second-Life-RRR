@@ -7,14 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class ScrapCategory {
+public class ScrapeCategories {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false, unique = true)
-	private String categoryName;
+	private String categoriesName;
 
 	public Long getId() {
 		return id;
@@ -26,12 +26,12 @@ public class ScrapCategory {
 		this.id = id;
 	}
 
-	public String getCategoryName() {
-		return categoryName;
+	public String getCategoriesName() {
+		return categoriesName;
 	}
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+	public void setCategoriesName(String categoriesName) {
+		this.categoriesName = categoriesName;
 	}
 
 }

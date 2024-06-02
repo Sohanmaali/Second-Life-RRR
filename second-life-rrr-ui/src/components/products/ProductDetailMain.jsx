@@ -1,8 +1,47 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../Loader";
 
 export default function ProductDetail() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [matchedProductDetail, setMatchedProductDetail] = useState({});
+  const { scrapProductDetails, loading, error } = useSelector(
+    (state) => state.scrapProduct
+  );
+  const [mainImage, setMainImage] = useState(scrapProductDetails[0].thumbnail);
+  const [secondaryImages, setSecondaryImages] = useState([]);
   const { productId } = useParams();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        scrapProductDetails.forEach((product) => {
+          if (product.id == productId) {
+            setMatchedProductDetail(product);
+            // setMainImage(product.thumbnail); // Set the initial main image
+            setSecondaryImages(product.images.map((img) => img.imageUrl)); // Set secondary images
+          }
+        });
+        setIsLoading(false);
+      } catch (error) {
+        navigate("/products");
+      }
+    };
+    fetchProduct();
+  }, [productId, scrapProductDetails]);
+
+  console.log("matchedProductDetail :", matchedProductDetail.productName);
+
+  const handleImageClick = (clickedImage) => {
+    const newSecondaryImages = secondaryImages.map((image) =>
+      image === clickedImage ? mainImage : image
+    );
+    setMainImage(clickedImage);
+    setSecondaryImages(newSecondaryImages);
+  };
+
   return (
     <>
       <div className="font-sans p-8 tracking-wide max-lg:max-w-2xl mx-auto">
@@ -10,35 +49,39 @@ export default function ProductDetail() {
           <div className="space-y-4 text-center lg:sticky top-8">
             <div className="bg-gray-100 p-4 flex items-center sm:h-[380px] rounded">
               <img
-                src="https://readymadeui.com/images/product14.webp"
+                src={mainImage}
                 alt="Product"
-                className="w-full max-h-full object-contain object-top"
+                className="w-full h-52 object-contain"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-100 p-4 flex items-center rounded sm:h-[182px]">
-                <img
-                  src="https://readymadeui.com/images/product12.webp"
-                  alt="Product"
-                  className="w-full max-h-full object-contain object-top"
-                />
-              </div>
-
-              <div className="bg-gray-100 p-4 flex items-center rounded sm:h-[182px]">
-                <img
-                  src="https://readymadeui.com/images/product9.webp"
-                  alt="Product"
-                  className="w-full max-h-full object-contain object-top"
-                />
-              </div>
+            <div className="grid grid-cols-3 gap-4">
+              {isLoading ? (
+                <Loader />
+              ) : matchedProductDetail ? (
+                secondaryImages.map((image, index) => (
+                  <div
+                    className="bg-gray-100 p-2 flex images-center rounded sm:h-[182px]"
+                    onClick={() => handleImageClick(image)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <img
+                      src={image}
+                      alt="Product"
+                      className="w-full max-h-full object-contain object-top"
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No product details available</p>
+              )}
             </div>
           </div>
 
           <div className="max-w-xl">
             <div>
               <h2 className="text-2xl font-extrabold text-gray-800">
-                Dark blue sneakers with white laces
+                {matchedProductDetail.productName}
               </h2>
               <p className="text-sm text-gray-600 mt-2">Well-Versed Commerce</p>
             </div>
@@ -113,37 +156,9 @@ export default function ProductDetail() {
             </div>
 
             <div className="mt-4">
-              <h3 className="text-gray-800 text-3xl font-bold">$30</h3>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="text-lg font-bold text-gray-800">Choose a Size</h3>
-              <div className="flex flex-wrap gap-4 mt-4">
-                <button
-                  type="button"
-                  className="w-12 h-12 border-2 hover:border-gray-800 font-semibold text-sm rounded-full flex items-center justify-center shrink-0"
-                >
-                  SM
-                </button>
-                <button
-                  type="button"
-                  className="w-12 h-12 border-2 hover:border-gray-800 border-gray-800 font-semibold text-sm rounded-full flex items-center justify-center shrink-0"
-                >
-                  MD
-                </button>
-                <button
-                  type="button"
-                  className="w-12 h-12 border-2 hover:border-gray-800 font-semibold text-sm rounded-full flex items-center justify-center shrink-0"
-                >
-                  LG
-                </button>
-                <button
-                  type="button"
-                  className="w-12 h-12 border-2 hover:border-gray-800 font-semibold text-sm rounded-full flex items-center justify-center shrink-0"
-                >
-                  XL
-                </button>
-              </div>
+              <h3 className="text-gray-800 text-3xl font-bold">
+                {matchedProductDetail.price} Rs
+              </h3>
             </div>
 
             <div className="flex flex-wrap gap-4 mt-8">

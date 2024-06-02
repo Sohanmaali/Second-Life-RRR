@@ -37,9 +37,9 @@ const Step2 = () => {
 
   const validateImageCount = () => {
     const imageCount = productData.images.length;
-    if (imageCount < 1) {
+    if (imageCount < 3 && imageCount > 4) {
       toast.error("Please upload a minimum of 3 images.");
-      return true;
+      return false;
     }
     return true;
   };

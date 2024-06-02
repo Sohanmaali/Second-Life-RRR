@@ -10,11 +10,11 @@ import { useNavigate } from "react-router-dom";
 
 import { selectIsLoggedIn } from "../../features/authSlice";
 import { addScrapProduct } from "../../features/scrapProductSlice";
-import { scrapptoductisAdded } from "../../features/scrapProductSlice";
+// import { scrapptoductisAdded } from "../../features/scrapProductSlice";
 
 function AddProduct() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const ProductIsAdded = useSelector(scrapptoductisAdded);
+  // const ProductIsAdded = useSelector(scrapptoductisAdded);
   const navigate = useNavigate();
   // console.log("is login add product       " + ProductIsAdded);
 
@@ -53,21 +53,17 @@ function AddProduct() {
     setStep(step - 1);
   };
 
-  const handleSubmit = async (event) => {
-    // console.log(productData);
-    event.preventDefault();
+  // const handleSubmit = async () => {
+  //   const formData = new FormData();
+  //   formData.append("data", JSON.stringify(productData));
+  //   formData.append("productThumbnail", productData.productThumbnail);
 
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(productData));
-    formData.append("productThumbnail", productData.productThumbnail);
+  //   for (const image of productData.images) {
+  //     formData.append("images", image);
+  //   }
 
-    for (const image of productData.images) {
-      formData.append("images", image);
-    }
-    // console.log(formData);
-
-    dispatch(addScrapProduct(formData));
-  };
+  //   dispatch(addScrapProduct(formData));
+  // };
 
   const contextValues = {
     step,
@@ -75,7 +71,7 @@ function AddProduct() {
     setProductData,
     handleNextStep,
     handlePreviousStep,
-    handleSubmit,
+    // handleSubmit,
   };
 
   const steper = [
