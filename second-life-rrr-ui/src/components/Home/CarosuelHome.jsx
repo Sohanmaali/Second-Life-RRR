@@ -2,7 +2,7 @@ import React from "react";
 import { Carousel } from "antd";
 
 const CarouselHome = () => (
-  <Carousel autoplay>
+  <Carousel autoplay className="mt-3">
     <div>
       <div className="lg:h-[550px] h-72 relative">
         <img

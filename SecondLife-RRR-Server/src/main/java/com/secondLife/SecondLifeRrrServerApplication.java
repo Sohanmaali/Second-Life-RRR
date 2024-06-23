@@ -8,8 +8,7 @@ public class SecondLifeRrrServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SecondLifeRrrServerApplication.class, args);
-	System.out.println("=======================================================Re-Run=======================================================");
-	
+	System.out.println("=======================================================Re-Run=====================================================");
 	}
 
 }

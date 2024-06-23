@@ -8,9 +8,9 @@ export default function TypeWriter() {
         <Typewriter
           options={{
             strings: [
-              "Hello, world!",
-              "Welcome to my website!",
-              "Enjoy your stay!",
+              "Welcome to over website!",
+              "Where Waste Finds Worth",
+              "Enjoy your Day!",
             ],
             autoStart: true,
             loop: true,

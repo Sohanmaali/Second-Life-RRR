@@ -19,18 +19,29 @@ export default function Login() {
       password: passwordElement.current.value,
     };
     dispatch(loginUser(mydata));
-    // if (isLoggedIn) {
-    //   navigate("/");
-    // }
   };
+
+  // const loginWithGoogle = async (response) => {
+  //   const { tokenId } = response;
+  //   try {
+  //     const res = await axios.post("http://localhost:8080/api/auth/google", {
+  //       tokenId,
+  //     });
+  //     console.log(res.data);
+  //   } catch (error) {
+  //     console.error("Login failed:", error);
+  //   }
+  // };
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/");
     }
   }, [isLoggedIn, navigate]);
+
   return (
     <>
-      <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center  ">
+      <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center mt-48 lg:mt-40 ">
         <div className="max-w-screen-xl m-0 sm:m-6 bg-white shadow sm:rounded-lg flex justify-center flex-1 ">
           <div className="flex-1 bg-[#fef9c3] text-center hidden lg:flex ">
             <div
@@ -111,7 +122,7 @@ export default function Login() {
                     <p className="mt-8">
                       Need an account?{" "}
                       <NavLink
-                        to="/singup"
+                        to="/signup"
                         className="text-blue-500 hover:text-blue-700 font-semibold"
                       >
                         Create an account

@@ -113,7 +113,7 @@ export default function Footer() {
           </div>
           <div className="px-4 py-6 bg-customYellow dark:bg-gray-700 md:flex md:items-center md:justify-between mx-auto items-center">
             <span className="text-sm text-black dark:text-gray-300 sm:text-center font-medium">
-              © 2023 <NavLink to="/">Flowbite™</NavLink>. All Rights Reserved.
+              © 2023 <NavLink to="/">Second Life</NavLink>. All Rights Reserved.
             </span>
             <div className="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
               <a

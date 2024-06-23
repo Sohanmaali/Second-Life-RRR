@@ -1,75 +1,100 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser, selectUserDetails } from "../../features/authSlice";
+import { NavLink } from "react-router-dom";
 
 export default function DropDownList() {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const dispatch = useDispatch();
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const userDetails = useSelector(selectUserDetails);
+
+  const toggleDropdown = useCallback((event) => {
+    event.preventDefault();
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  }, []);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+  const handleLogout = () => {
+    dispatch(logoutUser());
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+  const dropDownData = [
+    {
+      tab: userDetails?.name || "",
+      url: "#",
+      onClick: () => {
+        toggleDropdown();
+      },
+    },
+    {
+      tab: "Profile",
+      url: "/my-profile",
+      icon: <i class="fa fa-user" aria-hidden="true"></i>,
+      onClick: () => {
+        toggleDropdown();
+      },
+    },
+    {
+      tab: "Settings",
+      url: "#",
+      icon: <i class="fa fa-cog" aria-hidden="true text-teal-600"></i>,
+      onClick: () => {
+        toggleDropdown();
+      },
+    },
+    {
+      tab: "Sign out",
+      url: "#",
+      icon: <i class="fa fa-sign-out" aria-hidden="true text-teal-600"></i>,
+      onClick: () => {
+        handleLogout();
+      },
+    },
+  ];
   return (
     <>
-      <button
-        id="dropdownUserAvatarButton"
-        onClick={toggleDropdown}
-        className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-        type="button"
+      <div
+        id="dropdownAvatar"
+        className="z-10 absolute flex right-0 top-0 rounded-xl shadow w-44 items-center justify-center dark:bg-gray-700 bg-gray-700"
       >
-        <span className="sr-only">Open user menu</span>
-        <img
-          className="w-8 h-8 rounded-full"
-          src="/docs/images/people/profile-picture-3.jpg"
-          alt="user photo"
-        />
-      </button>
-
-      {/* <!-- Dropdown menu --> */}
-      {isOpen && (
-        <div className="relative bg-slate-400">
-          <div
-            id="dropdownAvatar"
-            className="z-10  absolute  flex  right-3 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
-          >
-            <ul
-              className="py-2 text-sm text-gray-700 dark:text-gray-200"
-              aria-labelledby="dropdownUserAvatarButton"
-            >
-              <li>
-                <a
-                  href="#"
-                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Earnings
-                </a>
-              </li>
-            </ul>
-            <div className="py-2">
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+        <ul
+          className=" text-sm text-green-700 dark:text-gray-200 w-full items-center justify-center text-center"
+          aria-labelledby="dropdownUserAvatarButton "
+        >
+          {dropDownData.map((item, index) => (
+            <li className="" key={index}>
+              <NavLink
+                to={item.url}
+                onClick={item.onClick} // Attach onClick handler
+                className={`${
+                  index === 0
+                    ? "bg-customYellow font-bold dark:text-black text-black"
+                    : "hover:bg-[#e1fade]  dark:hover:bg-[#e1fade] hover:font-medium gap-4"
+                } flex items-center justify-center py-2  rounded-2xl  dark:hover:text-black  relative w-full`}
               >
-                Sign out
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+                {item.tab}
+                {item?.icon || ""}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }

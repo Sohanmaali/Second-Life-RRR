@@ -25,21 +25,25 @@
 		</dependency>
 
 
-		<!--For Web-->
+		<!--For
+		Web-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--For Web End-->
+		<!--For
+		Web End-->
 
-		<!--For security-->
+		<!--For
+		security-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<!--For security End-->
+		<!--For
+		security End-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,7 +63,8 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!--Lombok End-->
+		<!--Lombok
+		End-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,7 +107,19 @@
 		<dependency>
 			<groupId>com.cloudinary</groupId>
 			<artifactId>cloudinary-http44</artifactId>
-			<version>1.36.0</version> <!-- Or the latest version available -->
+			<version>1.36.0</version>
+			<!-- Or the latest version available -->
+		</dependency>
+
+		<!-- For mail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- For Google Authentication -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 
 

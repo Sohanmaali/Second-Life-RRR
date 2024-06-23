@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface CloudnaryImageService {
 
-	public Map upload(MultipartFile file);
+	public Map<String, String> upload(MultipartFile file);
 }

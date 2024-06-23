@@ -1,58 +1,3 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import BASE_URL from "../service/Base_URL";
-// import axios from "axios";
-// import { toast } from "react-toastify";
-
-// const initialState = {
-//   scrapProductSuccess: false,
-// };
-
-// export const scrapProductSlice = createSlice({
-//   name: "scrapProduct",
-//   initialState,
-//   reducers: {
-//     scrapProductSuccess: (state) => {
-//       state.scrapProductSuccess = true;
-//     },
-//   },
-// });
-
-// export const { scrapProductSuccess } = scrapProductSlice.actions;
-
-// export const addScrapProduct = (scrapData) => async (dispatch) => {
-//   try {
-//     const token = localStorage.getItem("token");
-//     if (!token) {
-//       toast.error("Token is missing!");
-//       return;
-//     }
-
-//     const headers = {
-//       Authorization: `Bearer ${token}`,
-//     };
-
-//     // console.log("Request Data:", scrapData); // Log the request data
-
-//     const response = await axios.post(BASE_URL.addScrapProducts, scrapData, {
-//       headers,
-//     });
-
-//     if (response.data) {
-//       dispatch(scrapProductSuccess());
-//       toast.success("Product Successfully Added!");
-//     }
-//   } catch (error) {
-//     console.error("Error:", error); // Log any errors
-//     toast.error("Product adding failed! Please try again");
-//   }
-// };
-
-// // Removed unused function scrapProductSuccess
-
-// export const scrapptoductisAdded = (state) => state.auth.scrapProductSuccess;
-
-// export default scrapProductSlice.reducer;
-// src/features/product/scrapProductSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -67,6 +12,30 @@ export const fetchScrapProductData = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue("Server Error");
+    }
+  }
+);
+
+// Async thunk for removing a scrap product
+export const removeScrapProduct = createAsyncThunk(
+  "scrapProduct/removeScrapProduct",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Token is missing!");
+      }
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      await axios.delete(`${BASE_URL.deleteScrapProduct}/${productId}`, {
+        headers,
+      });
+      return productId;
+    } catch (error) {
+      return rejectWithValue("Product removal failed! Please try again");
     }
   }
 );
@@ -100,6 +69,22 @@ export const scrapProductSlice = createSlice({
       .addCase(fetchScrapProductData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(removeScrapProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeScrapProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.scrapProductDetails = state.scrapProductDetails.filter(
+          (product) => product.id !== action.payload
+        );
+        toast.success("Product Successfully Removed!");
+      })
+      .addCase(removeScrapProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        // toast.error(action.payload);
       });
   },
 });

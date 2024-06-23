@@ -9,8 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { selectIsLoggedIn } from "../../features/authSlice";
-import { addScrapProduct } from "../../features/scrapProductSlice";
-// import { scrapptoductisAdded } from "../../features/scrapProductSlice";
 
 function AddProduct() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -53,18 +51,6 @@ function AddProduct() {
     setStep(step - 1);
   };
 
-  // const handleSubmit = async () => {
-  //   const formData = new FormData();
-  //   formData.append("data", JSON.stringify(productData));
-  //   formData.append("productThumbnail", productData.productThumbnail);
-
-  //   for (const image of productData.images) {
-  //     formData.append("images", image);
-  //   }
-
-  //   dispatch(addScrapProduct(formData));
-  // };
-
   const contextValues = {
     step,
     productData,
@@ -82,7 +68,7 @@ function AddProduct() {
   ];
   return (
     <FormContext.Provider value={contextValues}>
-      <div className=" w-full lg:h-auto  pb-6">
+      <div className=" w-full lg:h-auto  pb-6 pt-32">
         <div className="flex justify-center md:pt-10 relative">
           <div className="flex flex-col md:flex-row gap-12  md:p-4 lg:h-auto  lg:w-11/12 w-screen   bg-slate-100">
             <div className="w-screen bg-imgMobile md:bg-imgDesktop absolute md:relative top-0 left-0 md:w-1/5 md:h-full bg-no-repeat bg-cover pb-12 z-0">

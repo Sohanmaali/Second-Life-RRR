@@ -32,7 +32,7 @@ export default function Products() {
     <>
       <section
         className="flex flex-col justify-center  min-h-screen
-      px-4 py-10 mx-auto sm:px-6 border "
+      px-4 py-10 mx-auto sm:px-6 border mt-36"
       >
         <div className="flex flex-wrap justify-center">
           {loading ? (

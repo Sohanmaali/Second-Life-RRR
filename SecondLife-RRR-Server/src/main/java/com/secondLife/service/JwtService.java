@@ -58,24 +58,7 @@ public class JwtService {
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = extractUsername(token);
-//		System.out.println("JWT SERVICE Email "  +username);
-//		System.out.println("JWT SERVICE Token  " + token);
-//		System.out.println("JWT SERVICE Name " + userDetails.getUsername());
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 
-	// retrieve username from jwt token
-	public String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
-	}
-
-	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = getAllClaimsFromToken(token);
-		return claimsResolver.apply(claims);
-	}
-
-	@SuppressWarnings("deprecation")
-	private Claims getAllClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-	}
 }

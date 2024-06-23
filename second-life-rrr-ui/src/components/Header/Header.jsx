@@ -1,37 +1,46 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  logoutUser,
-  selectIsLoggedIn,
-  selectUserDetails,
-} from "../../features/authSlice";
+import { selectIsLoggedIn } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import DropDownList from "./DropDownList";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const dropdownRef = useRef(null);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const userDetails = useSelector(selectUserDetails);
+  // const userDetails = useSelector(selectUserDetails);
 
   const handleLogin = () => {
     navigate("/login");
   };
-  const handleLogout = () => {
-    console.log(`logout call`);
-    dispatch(logoutUser());
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <>
-      <header className="  pt-3 pb-3 container bg-customYellow relative mx-auto flex flex-col overflow-hidden px-4 lg:flex-row lg:items-center navbar">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-customYellow py-3 flex items-center justify-between px-4 lg:h-20">
         <NavLink
           to="/"
           className="flex items-center whitespace-nowrap font-black"
@@ -99,35 +108,37 @@ const Header = () => {
               20
             </div>
           </button>
-          <label
+          {/* <label
             className="top-5 bg-gray-200 right-20 cursor-pointer lg:hidden rounded-full focus:ring-offset-2 hover:bg-gray-300 focus:ring-2 p-2 text-sm"
             htmlFor="navbar-open"
           >
             <i className="fas fa-search text-teal-600"></i>
-          </label>
+          </label> */}
 
           {isLoggedIn ? (
             <div>
               <button
                 id="dropdownUserAvatarButton"
                 onClick={toggleDropdown}
-                className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                className="flex text-sm md:me-0 "
                 type="button"
               >
-                <span className="sr-only">Open user menu</span>
-                <img
-                  src={`${process.env.PUBLIC_URL}/sohan.jpg`}
-                  className="w-8 h-8 rounded-full"
-                  alt="user photo"
-                />
+                <div className="text-3xl">
+                  <i className="fas fa-user-circle text-teal-600 "></i>
+                </div>
               </button>
 
               {/* <!-- Dropdown menu --> */}
+              {isOpen && (
+                <div className="relative right-0 z-50" ref={dropdownRef}>
+                  <DropDownList />
+                </div>
+              )}
             </div>
           ) : (
             <button
               onClick={handleLogin}
-              className="px-6 py-2 font-semibold rounded bg-[#22631B] text-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-[green]"
+              className="px-6 py-2 font-semibold rounded bg-customGreen text-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-[green]"
             >
               login
             </button>
@@ -160,109 +171,31 @@ const Header = () => {
               <button
                 id="dropdownUserAvatarButton"
                 onClick={toggleDropdown}
-                className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                className="flex text-sm md:me-0 "
                 type="button"
               >
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="/docs/images/people/profile-picture-3.jpg"
-                  // src={`${process.env.PUBLIC_URL}/sohan.jpg`}
-                  alt="user photo"
-                />
+                <div className="text-3xl">
+                  <i className="fas fa-user-circle text-teal-600 "></i>
+                </div>
               </button>
 
               {/* <!-- Dropdown menu --> */}
+              {isOpen && (
+                <div className="relative top-5 right-0 z-50" ref={dropdownRef}>
+                  <DropDownList />
+                </div>
+              )}
             </div>
           ) : (
             <button
               onClick={handleLogin}
-              className="px-6 py-2 font-semibold rounded bg-[#22631B] text-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-[green] whitespace-nowrap"
+              className="px-6 py-2 font-semibold rounded bg-customGreen text-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-[green] whitespace-nowrap"
             >
               log in
             </button>
           )}
         </div>
       </header>
-      {isOpen && (
-        <div className="relative">
-          <div
-            id="dropdownAvatar"
-            className="z-10 absolute flex right-0 top-0 rounded-lg shadow w-44 items-center justify-center bg-fuchsia-950"
-          >
-            <ul
-              className="py-2 text-sm text-gray-700 dark:text-gray-200 w-full items-center justify-center text-center "
-              aria-labelledby="dropdownUserAvatarButton "
-            >
-              {[
-                {
-                  tab: userDetails?.name || "",
-                  url: userDetails?.email || "",
-                  onClick: () => {
-                    toggleDropdown();
-                  },
-                },
-                {
-                  tab: "Profile",
-                  url: "#",
-                  onClick: () => {
-                    toggleDropdown();
-                  },
-                },
-                {
-                  tab: "Settings",
-                  url: "#",
-                  onClick: () => {
-                    toggleDropdown();
-                  },
-                },
-                {
-                  tab: "Sign out",
-                  url: "#",
-                  onClick: () => {
-                    handleLogout();
-                  },
-                }, // Add onClick handler
-              ].map((item, index) => (
-                <li className="">
-                  <NavLink
-                    to={item.url}
-                    onClick={item.onClick} // Attach onClick handler
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    // onClick={toggleDropdown}
-                  >
-                    {item.tab}
-                  </NavLink>
-                </li>
-              ))}
-
-              {/* <li>
-                <a
-                  href="#"
-                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Earnings
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Sign out
-                </a>
-              </li> */}
-            </ul>
-          </div>
-        </div>
-      )}
     </>
   );
 };

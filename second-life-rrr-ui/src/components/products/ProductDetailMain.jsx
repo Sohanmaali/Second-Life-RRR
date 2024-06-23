@@ -2,18 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../Loader";
+import { selectUserDetails } from "../../features/authSlice";
 
 export default function ProductDetail() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [matchedProductDetail, setMatchedProductDetail] = useState({});
-  const { scrapProductDetails, loading, error } = useSelector(
-    (state) => state.scrapProduct
-  );
+  const { scrapProductDetails } = useSelector((state) => state.scrapProduct);
   const [mainImage, setMainImage] = useState(scrapProductDetails[0].thumbnail);
   const [secondaryImages, setSecondaryImages] = useState([]);
   const { productId } = useParams();
 
+  const userDetails = useSelector(selectUserDetails);
+  console.log("user ditail producy main ", userDetails);
+
+  // Filter  Product
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -32,8 +35,7 @@ export default function ProductDetail() {
     fetchProduct();
   }, [productId, scrapProductDetails]);
 
-  console.log("matchedProductDetail :", matchedProductDetail.productName);
-
+  // Swap Images
   const handleImageClick = (clickedImage) => {
     const newSecondaryImages = secondaryImages.map((image) =>
       image === clickedImage ? mainImage : image
@@ -44,7 +46,7 @@ export default function ProductDetail() {
 
   return (
     <>
-      <div className="font-sans p-8 tracking-wide max-lg:max-w-2xl mx-auto">
+      <div className="font-sans p-8 tracking-wide max-lg:max-w-2xl mx-auto mt-32">
         <div className="grid items-start grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-4 text-center lg:sticky top-8">
             <div className="bg-gray-100 p-4 flex items-center sm:h-[380px] rounded">
@@ -85,7 +87,6 @@ export default function ProductDetail() {
               </h2>
               <p className="text-sm text-gray-600 mt-2">Well-Versed Commerce</p>
             </div>
-
             <div className="flex space-x-1 mt-4">
               <svg
                 className="w-5 fill-gray-800"
@@ -154,29 +155,30 @@ export default function ProductDetail() {
                 87 Reviews
               </button>
             </div>
-
             <div className="mt-4">
               <h3 className="text-gray-800 text-3xl font-bold">
                 {matchedProductDetail.price} Rs
               </h3>
             </div>
-
+            {/* {userDetails.roles === "ADMIN_USER" ? ( */}
             <div className="flex flex-wrap gap-4 mt-8">
-              <button
-                type="button"
-                className="min-w-[200px] px-4 py-3 bg-gray-800 hover:bg-gray-900 text-white text-sm font-semibold rounded"
-              >
-                Buy now
-              </button>
               <button
                 type="button"
                 className="min-w-[200px] px-4 py-2.5 border border-gray-800 bg-transparent hover:bg-gray-50 text-gray-800 text-sm font-semibold rounded"
               >
-                Add to cart
+                Intrested
+              </button>
+              <button
+                type="button"
+                className="min-w-[200px] px-4 py-3 bg-gray-800 hover:bg-gray-900 text-white text-sm font-semibold rounded"
+              >
+                DisLike
               </button>
             </div>
+            {/* ) : (
+              ""
+            ) */}
             {/* ================================================= */}
-
             <div className="mt-8">
               <ul className="flex border-b">
                 <li className="text-gray-800 font-bold text-sm bg-gray-100 py-3 px-8 border-b-2 border-gray-800 cursor-pointer transition-all">
@@ -199,25 +201,6 @@ export default function ProductDetail() {
                   all-day comfort, making them perfect for everyday wear.
                 </p>
               </div>
-
-              <ul className="space-y-3 list-disc mt-6 pl-4 text-sm text-gray-600">
-                <li>
-                  A pair of gray shoes is a wardrobe essential due to its
-                  versatility.
-                </li>
-                <li>
-                  Available in a wide range of sizes, from extra small to extra
-                  large, and even in tall and petite sizes.
-                </li>
-                <li>
-                  Easy to maintain, they can be machine-washed and dried on low
-                  heat.
-                </li>
-                <li>
-                  Personalize them with your own designs, patterns, or
-                  embellishments to make them uniquely yours.
-                </li>
-              </ul>
             </div>
           </div>
         </div>

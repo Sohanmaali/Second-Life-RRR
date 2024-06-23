@@ -8,7 +8,7 @@ export default function Home() {
   useEffect(() => {}, []);
   return (
     <>
-      <div className="bg-[#fefce8]">
+      <div className="bg-[#fefce8] lg:mt-32 mt-36">
         <CarouselHome />
         <TypeWriter />
         <HeroFirst />

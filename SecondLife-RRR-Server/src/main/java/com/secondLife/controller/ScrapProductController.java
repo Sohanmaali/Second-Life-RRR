@@ -45,12 +45,8 @@ public class ScrapProductController {
 	@Autowired
 	private ProductService productService;
 
-//	===================================================
-
 	@Autowired
 	private CloudnaryImageService imageService;
-
-//			===================================================
 
 	@GetMapping("/user/get-scrap-products")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
@@ -77,14 +73,18 @@ public class ScrapProductController {
 		return ResponseEntity.ok(scrapProduct);
 	}
 
+	// Delete Scrap Product
+
 	@DeleteMapping("/user/delete-scrap-product/{id}")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<Void> deleteScrapProduct(@PathVariable Long id) {
-		productService.deleteProduct(id);
+		System.out.println("Product id   " + id);
+//		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@SuppressWarnings("unchecked")
+//	Add ScrapProduct
+
 	@PostMapping("/user/add-scrap-product")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<?> addScrapProduct(@RequestPart("data") String dataString,
@@ -147,16 +147,5 @@ public class ScrapProductController {
 		}
 //		return null;
 	}
-
-//	===============================================================================
-//	@PostMapping("/upload")
-//	public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("image") MultipartFile file) {
-//
-//		@SuppressWarnings("unchecked")
-//		Map<String, String> map = this.imageService.upload(file);
-//
-//		return new ResponseEntity<>(map, HttpStatus.OK);
-//
-//	}
 
 }

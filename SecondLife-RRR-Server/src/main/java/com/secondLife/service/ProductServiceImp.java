@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.secondLife.entity.Images;
 import com.secondLife.entity.ScrapProduct;
+import com.secondLife.entity.ScrapProduct.Status;
 import com.secondLife.repository.ScrapProductRepository;
 
 @Service
@@ -24,12 +25,10 @@ public class ProductServiceImp implements ProductService {
 			if (scrapProduct.getAddress() != null) {
 				scrapProduct.getAddress().setUser(scrapProduct.getUser());
 			}
-//			if (scrapProduct.getAddress() != null) {
-//				scrapProduct.getAddress().setScrapProduct(scrapProduct);
-//			}
 			for (Images image : scrapProduct.getImages()) {
 				image.setScrapProduct(scrapProduct);
 			}
+			scrapProduct.setStatus(Status.PENDING);
 			return this.scrapProductRepository.save(scrapProduct);
 		} catch (Exception e) {
 			System.out.println(e);

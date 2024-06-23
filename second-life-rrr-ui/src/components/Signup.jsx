@@ -5,7 +5,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, selectRegistrationSuccess } from "../features/authSlice";
 import { NavLink, useNavigate } from "react-router-dom";
-export default function Sigup() {
+
+export default function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const nameElement = useRef();
@@ -52,7 +53,10 @@ export default function Sigup() {
   return (
     <>
       {/* <!-- source:https://codepen.io/owaiswiz/pen/jOPvEPB --> */}
-      <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+      <div
+        className="min-h-screen bg-gray-100 text-gray-900 flex justify-center mt-36
+      "
+      >
         <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
           <div className="lg:w-1/2 xl:w-5/12 p-4 sm:p-12">
             <div className="mt-3 flex flex-col items-center">
