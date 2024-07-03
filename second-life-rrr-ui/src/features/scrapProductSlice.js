@@ -3,13 +3,24 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import BASE_URL from "../service/Base_URL"; // Adjust the import path as necessary
 
+const initialState = {
+  scrapProductSuccess: false,
+  scrapProductDetails: [],
+  loading: false,
+  error: null,
+};
+
 // Async thunk for fetching product data
 export const fetchScrapProductData = createAsyncThunk(
   "scrapProduct/fetchScrapProductData",
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.get(BASE_URL.getScrapProducts);
-      return response.data;
+      const { scrapProductDetails } = getState().scrapProduct;
+      if (scrapProductDetails.length === 0) {
+        const response = await axios.get(BASE_URL.getScrapProducts);
+        return response.data;
+      }
+      return scrapProductDetails;
     } catch (error) {
       return rejectWithValue("Server Error");
     }
@@ -40,13 +51,6 @@ export const removeScrapProduct = createAsyncThunk(
   }
 );
 
-const initialState = {
-  scrapProductSuccess: false,
-  scrapProductDetails: [],
-  loading: false,
-  error: null,
-};
-
 export const scrapProductSlice = createSlice({
   name: "scrapProduct",
   initialState,
@@ -54,7 +58,6 @@ export const scrapProductSlice = createSlice({
     scrapProductSuccess: (state) => {
       state.scrapProductSuccess = true;
     },
-    // Removed getScrapProductSuccess as it's not needed with createAsyncThunk
   },
   extraReducers: (builder) => {
     builder
@@ -84,7 +87,7 @@ export const scrapProductSlice = createSlice({
       .addCase(removeScrapProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        // toast.error(action.payload);
+        toast.error(action.payload);
       });
   },
 });
